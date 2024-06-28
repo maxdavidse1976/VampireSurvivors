@@ -5,8 +5,8 @@ using Random = UnityEngine.Random;
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] Rigidbody2D _rb;
-    [SerializeField] float _minimumMoveSpeed = 0.7f;
-    [SerializeField] float _maximumMoveSpeed = 1.4f;
+    [SerializeField] float _minimumMoveSpeed = 0.8f;
+    [SerializeField] float _maximumMoveSpeed = 2.9f;
     [SerializeField] float _damage;
     [SerializeField] float _hitWaitTime = 0.5f;
     
@@ -55,11 +55,10 @@ public class EnemyMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.transform.CompareTag("Player") && _hitCounter <= 0f)
-        {
-            PlayerHealth.Instance.TakeDamage(_damage);
-
-            _hitCounter = _hitWaitTime;
-        }
+        var player = other.gameObject.GetComponent<PlayerHealth>();
+        if (!player) return;
+        
+        PlayerHealth.Instance.TakeDamage(_damage);
+        _hitCounter = _hitWaitTime;
     }
 }
